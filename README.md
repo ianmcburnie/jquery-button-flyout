@@ -49,6 +49,14 @@ Markup after plugin:
 </div>
 ```
 
+## Events
+
+* `closeButtonFlyout` - close the button flyout
+* `openButtonFlyout` - open the button flyout
+* `toggleButtonFlyout` - toggle the button flyout
+* `buttonFlyoutClose` - the button flyout has closed
+* `buttonFlyoutOpen` - the button flyout has opened
+
 ## Development
 
 Run `npm start` for test driven development. All tests are located in `test.js`.

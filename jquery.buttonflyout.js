@@ -1,7 +1,7 @@
 /**
 * @name @ebay/jquery-button-flyout
 * @function $.fn.buttonFlyout
-* @version 0.1.4
+* @version 0.2.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires @ebay/jquery-next-id
 * @requires @ebay/jquery-common-keys-js
@@ -9,6 +9,11 @@
 * @requires @ebay/jquery-focus-exit
 * @desc converts a button + * into a button + popup flyout and handles all
 * hide/show behaviour.
+* @fires {object} closeButtonFlyout - close the button flyout
+* @fires {object} openButtonFlyout - open the button flyout
+* @fires {object} toggleButtonFlyout - toggle the button flyout
+* @fires {object} buttonFlyoutClose - the button flyout has closed
+* @fires {object} buttonFlyoutOpen - the button flyout has opened
 */
 (function ($, window, document, undefined) {
 
@@ -25,8 +30,8 @@
             $this.nextId('button-flyout');
 
             // when overlay loses focus, hide overlay
-            $overlay.focusExit().on('focusexit', function onOverlayFocusExit(e) {
-                $this.trigger('hide.buttonFlyout');
+            $overlay.focusExit().on('focusExit', function onOverlayFocusExit(e) {
+                $this.trigger('closeButtonFlyout');
             });
 
             // assign id to overlay and hide element
@@ -40,32 +45,34 @@
                 .attr('aria-expanded', 'false');
 
             $button.on('click', function onButtonClick(e) {
-                $this.trigger('toggle.buttonFlyout');
+                $this.trigger('toggleButtonFlyout');
             });
 
-            $this.on('toggle.buttonFlyout', function onToggle(e) {
-                $this.trigger($overlay.attr('aria-hidden') == 'true' ? 'show.buttonFlyout' : 'hide.buttonFlyout');
+            $this.on('toggleButtonFlyout', function onToggle(e) {
+                $this.trigger($overlay.attr('aria-hidden') == 'true' ? 'openButtonFlyout' : 'closeButtonFlyout');
             });
 
             // update ARIA states on show
-            $this.on('show.buttonFlyout', function onShow(e) {
+            $this.on('openButtonFlyout', function onShow(e) {
                 $button.attr('aria-expanded', 'true');
                 $overlay.attr('aria-hidden', 'false');
                 // if desired, set focus on first interactive element
                 if (options.focusManagement === true) {
                     $overlay.focusable().first().focus();
                 }
+                $this.trigger('buttonFlyoutOpen');
             });
 
             // update ARIA states on hide
-            $this.on('hide.buttonFlyout', function onHide(e) {
+            $this.on('closeButtonFlyout', function onHide(e) {
                 $button.attr('aria-expanded', 'false');
                 $overlay.attr('aria-hidden', 'true');
+                $this.trigger('buttonFlyoutClose');
             });
 
             // esc key must close overlay
             $this.commonKeys().on('escape.commonKeyDown', function onEscKeyDown(e) {
-                $this.trigger('hide.buttonFlyout');
+                $this.trigger('closeButtonFlyout');
                 $button.focus();
             });
 
