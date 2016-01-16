@@ -1,7 +1,7 @@
 /**
 * @name @ebay/jquery-button-flyout
 * @function $.fn.buttonFlyout
-* @version 0.2.0
+* @version 0.3.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires @ebay/jquery-next-id
 * @requires @ebay/jquery-common-keys-js
@@ -71,7 +71,7 @@
             });
 
             // esc key must close overlay
-            $this.commonKeys().on('escape.commonKeyDown', function onEscKeyDown(e) {
+            $this.commonKeys().on('escapeKeyDown', function onEscKeyDown(e) {
                 $this.trigger('closeButtonFlyout');
                 $button.focus();
             });

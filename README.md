@@ -20,7 +20,7 @@ Please use the tilde range specifier in your package.json to pin to a fixed majo
 ## Install
 
 ```js
-npm install @ebay/jquery-button-flyout --save
+npm install @ebay/jquery-button-flyout
 ```
 
 ## Example

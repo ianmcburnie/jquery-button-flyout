@@ -83,7 +83,7 @@ describe("jquery.buttonflyout.js", function() {
     it("should set aria-expanded=false when ESC key pressed", function(done) {
         $widget.buttonFlyout();
         $button.click();
-        $widget.trigger("escape.commonKeyDown");
+        $widget.trigger("escapeKeyDown");
 
         setTimeout(function() {
             expect($button.attr('aria-expanded')).toBe("false");
