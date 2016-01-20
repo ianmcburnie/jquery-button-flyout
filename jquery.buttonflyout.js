@@ -1,11 +1,11 @@
 /**
 * @name @ebay/jquery-button-flyout
 * @function $.fn.buttonFlyout
-* @version 0.3.0
+* @version 0.4.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires @ebay/jquery-next-id
-* @requires @ebay/jquery-common-keys-js
-* @requires @ebay/jquery-focusable-js
+* @requires @ebay/jquery-common-keydown
+* @requires @ebay/jquery-focusable
 * @requires @ebay/jquery-focus-exit
 * @desc converts a button + * into a button + popup flyout and handles all
 * hide/show behaviour.
@@ -71,7 +71,7 @@
             });
 
             // esc key must close overlay
-            $this.commonKeys().on('escapeKeyDown', function onEscKeyDown(e) {
+            $this.commonKeyDown().on('escapeKeyDown', function onEscKeyDown(e) {
                 $this.trigger('closeButtonFlyout');
                 $button.focus();
             });

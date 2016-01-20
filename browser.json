@@ -2,7 +2,7 @@
     "dependencies":[
         {"require-run": "jquery"},
         {"require-run": "@ebay/jquery-next-id"},
-        {"require-run": "@ebay/jquery-common-keys"},
+        {"require-run": "@ebay/jquery-common-keydown"},
         {"require-run": "@ebay/jquery-focus-exit"},
         {"require-run": "@ebay/jquery-focusable"}
     ]
