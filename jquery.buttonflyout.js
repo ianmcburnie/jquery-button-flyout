@@ -1,7 +1,7 @@
 /**
 * @name @ebay/jquery-button-flyout
 * @function $.fn.buttonFlyout
-* @version 0.4.0
+* @version 0.5.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires @ebay/jquery-next-id
 * @requires @ebay/jquery-common-keydown
@@ -9,9 +9,6 @@
 * @requires @ebay/jquery-focus-exit
 * @desc converts a button + * into a button + popup flyout and handles all
 * hide/show behaviour.
-* @fires {object} closeButtonFlyout - close the button flyout
-* @fires {object} openButtonFlyout - open the button flyout
-* @fires {object} toggleButtonFlyout - toggle the button flyout
 * @fires {object} buttonFlyoutClose - the button flyout has closed
 * @fires {object} buttonFlyoutOpen - the button flyout has opened
 */
@@ -22,16 +19,34 @@
         options = options || {};
 
         return this.each(function onEach() {
-            var $this = $(this),
-                $button = $this.find('> button'),
-                $overlay = $this.find('> *:last-child');
+            var $this = $(this);
+            var $button = $this.find('> button');
+            var $overlay = $this.find('> *:last-child');
+
+            // update ARIA states on show
+            function openButtonFlyout(e) {
+                $button.attr('aria-expanded', 'true');
+                $overlay.attr('aria-hidden', 'false');
+                // if desired, set focus on first interactive element
+                if (options.focusManagement === true) {
+                    $overlay.focusable().first().focus();
+                }
+                $this.trigger('buttonFlyoutOpen');
+            }
+
+            // update ARIA states on hide
+            function closeButtonFlyout(e) {
+                $button.attr('aria-expanded', 'false');
+                $overlay.attr('aria-hidden', 'true');
+                $this.trigger('buttonFlyoutClose');
+            }
 
             // assign next id in sequence if one doesn't already exist
             $this.nextId('button-flyout');
 
             // when overlay loses focus, hide overlay
-            $overlay.focusExit().on('focusExit', function onOverlayFocusExit(e) {
-                $this.trigger('closeButtonFlyout');
+            $this.focusExit().on('focusExit', function onOverlayFocusExit(e) {
+                closeButtonFlyout();
             });
 
             // assign id to overlay and hide element
@@ -45,34 +60,16 @@
                 .attr('aria-expanded', 'false');
 
             $button.on('click', function onButtonClick(e) {
-                $this.trigger('toggleButtonFlyout');
-            });
-
-            $this.on('toggleButtonFlyout', function onToggle(e) {
-                $this.trigger($overlay.attr('aria-hidden') == 'true' ? 'openButtonFlyout' : 'closeButtonFlyout');
-            });
-
-            // update ARIA states on show
-            $this.on('openButtonFlyout', function onShow(e) {
-                $button.attr('aria-expanded', 'true');
-                $overlay.attr('aria-hidden', 'false');
-                // if desired, set focus on first interactive element
-                if (options.focusManagement === true) {
-                    $overlay.focusable().first().focus();
+                if ($overlay.attr('aria-hidden') === 'true') {
+                    openButtonFlyout();
+                } else {
+                    closeButtonFlyout();
                 }
-                $this.trigger('buttonFlyoutOpen');
             });
 
-            // update ARIA states on hide
-            $this.on('closeButtonFlyout', function onHide(e) {
-                $button.attr('aria-expanded', 'false');
-                $overlay.attr('aria-hidden', 'true');
-                $this.trigger('buttonFlyoutClose');
-            });
-
-            // esc key must close overlay
-            $this.commonKeyDown().on('escapeKeyDown', function onEscKeyDown(e) {
-                $this.trigger('closeButtonFlyout');
+            // when focus is inside flyout, esc key must close flyout
+            $overlay.commonKeyDown().on('escapeKeyDown', function onEscKeyDown(e) {
+                closeButtonFlyout();
                 $button.focus();
             });
 

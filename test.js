@@ -1,8 +1,8 @@
 describe("jquery.buttonflyout.js", function() {
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 500;
 
-    var dummyEventTimeoutInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL - 500;
+    var dummyEventTimeoutInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL / 2;
 
     var dom = '<div class="flyout">'
                 + '<button>Notifications</button>'
@@ -83,7 +83,7 @@ describe("jquery.buttonflyout.js", function() {
     it("should set aria-expanded=false when ESC key pressed", function(done) {
         $widget.buttonFlyout();
         $button.click();
-        $widget.trigger("escapeKeyDown");
+        $overlay.trigger("escapeKeyDown");
 
         setTimeout(function() {
             expect($button.attr('aria-expanded')).toBe("false");
