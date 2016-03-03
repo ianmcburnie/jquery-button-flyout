@@ -45,13 +45,13 @@
     "@ebay/jquery-next-id": "~0.0.0",
     "@ebay/jquery-common-keydown": "~0.0.0",
     "@ebay/jquery-focus-exit": "~0.1.0",
-    "@ebay/jquery-focusable": "~0.0.0"
+    "@ebay/jquery-focusable": "~0.2.0"
   },
   "peerDependencies": {
     "jquery": ">=1.11 < 3",
     "@ebay/jquery-next-id": "~0.0.0",
     "@ebay/jquery-common-keydown": "~0.0.0",
     "@ebay/jquery-focus-exit": "~0.1.0",
-    "@ebay/jquery-focusable": "~0.0.0"
+    "@ebay/jquery-focusable": "~0.2.0"
   }
 }

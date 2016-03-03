@@ -1,7 +1,7 @@
 /**
 * @name @ebay/jquery-button-flyout
 * @function $.fn.buttonFlyout
-* @version 0.5.1
+* @version 0.5.2
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires @ebay/jquery-next-id
 * @requires @ebay/jquery-common-keydown
