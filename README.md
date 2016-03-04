@@ -3,6 +3,8 @@
 <p>
     <a href="https://travis-ci.org/ianmcburnie/jquery-button-flyout"><img src="https://api.travis-ci.org/ianmcburnie/jquery-button-flyout.svg?branch=master" alt="Build Status" /></a>
     <a href='https://coveralls.io/github/ianmcburnie/jquery-button-flyout?branch=master'><img src='https://coveralls.io/repos/ianmcburnie/jquery-button-flyout/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+    <a href="https://david-dm.org/ianmcburnie/jquery-button-flyout"><img src="https://david-dm.org/ianmcburnie/jquery-button-flyout.svg" alt="Dependency status" /></a>
+    <a href="https://david-dm.org/ianmcburnie/jquery-button-flyout#info=devDependencies"><img src="https://david-dm.org/ianmcburnie/jquery-button-flyout/dev-status.svg" alt="devDependency status" /></a>
 </p>
 
 jQuery collection plugin that converts a button + * into a button + overlay, and handles all hide/show behaviour.
