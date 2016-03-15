@@ -1,4 +1,4 @@
-# @ebay/jquery-button-flyout
+# jquery-button-flyout
 
 <p>
     <a href="https://travis-ci.org/ianmcburnie/jquery-button-flyout"><img src="https://api.travis-ci.org/ianmcburnie/jquery-button-flyout.svg?branch=master" alt="Build Status" /></a>
@@ -22,7 +22,7 @@ Please use the tilde range specifier in your package.json to pin to a fixed majo
 ## Install
 
 ```js
-npm install @ebay/jquery-button-flyout
+npm install jquery-button-flyout
 ```
 
 ## Example

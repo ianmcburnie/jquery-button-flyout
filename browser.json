@@ -1,10 +1,10 @@
 {
     "dependencies":[
         {"require-run": "jquery"},
-        "@ebay/jquery-next-id",
-        "@ebay/jquery-common-keydown",
-        "@ebay/jquery-focus-exit",
-        "@ebay/jquery-focusable",
+        "jquery-next-id",
+        "jquery-common-keydown",
+        "jquery-focus-exit",
+        "jquery-focusable",
         "jquery.buttonflyout.js"
     ]
 }

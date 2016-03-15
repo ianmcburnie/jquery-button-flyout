@@ -1,12 +1,12 @@
 /**
-* @name @ebay/jquery-button-flyout
+* @name jquery-button-flyout
 * @function $.fn.buttonFlyout
 * @version 0.5.2
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
-* @requires @ebay/jquery-next-id
-* @requires @ebay/jquery-common-keydown
-* @requires @ebay/jquery-focusable
-* @requires @ebay/jquery-focus-exit
+* @requires jquery-next-id
+* @requires jquery-common-keydown
+* @requires jquery-focusable
+* @requires jquery-focus-exit
 * @desc converts a button + * into a button + popup flyout and handles all
 * hide/show behaviour.
 * @fires {object} buttonFlyoutClose - the button flyout has closed
