@@ -1,7 +1,7 @@
 /**
 * @name jquery-button-flyout
 * @function $.fn.buttonFlyout
-* @version 0.5.3
+* @version 0.5.4
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires jquery-next-id
 * @requires jquery-common-keydown
