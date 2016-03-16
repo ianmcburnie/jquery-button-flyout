@@ -21,9 +21,17 @@ Please use the tilde range specifier in your package.json to pin to a fixed majo
 
 ## Install
 
+<strike>
+```
+npm install @ebay/jquery-button-flyout
+```
+</strike>
+
 ```js
 npm install jquery-button-flyout
 ```
+
+**NOTE: The @ebay package scope is no longer supported. In order to receive latest NPM updates, please use the non-scoped version of this package.**
 
 ## Example
 
