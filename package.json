@@ -4,8 +4,8 @@
   "version": "0.5.4",
   "scripts": {
     "start": "karma start --autoWatch true --singleRun false",
-    "test": "karma start",
-    "prepublish": "npm run build",
+    "test": "karma start --autoWatch false --singleRun true",
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
     "lint": "jshint jquery.buttonflyout.js > jshint.txt",
     "minify": "jsmin -o jquery.buttonflyout.min.js jquery.buttonflyout.js",
     "clean": "rimraf test_reports *.min.js jshint.txt",

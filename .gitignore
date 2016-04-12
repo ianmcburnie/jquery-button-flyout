@@ -18,6 +18,3 @@ test_reports
 
 # Lint output
 jshint.txt
-
-# Minified JS
-*.min.js

@@ -83,12 +83,13 @@ describe("jquery.buttonflyout.js", function() {
     it("should set aria-expanded=false when ESC key pressed", function(done) {
         $widget.buttonFlyout();
         $button.click();
+        $closeButton.focus();
         $overlay.trigger("escapeKeyDown");
 
         setTimeout(function() {
             expect($button.attr('aria-expanded')).toBe("false");
             done();
-        }, 10);
+        }, 100);
     });
 
     it("should set aria-expanded=false on focusexit", function(done) {
@@ -99,7 +100,7 @@ describe("jquery.buttonflyout.js", function() {
         setTimeout(function() {
             expect($button.attr('aria-expanded')).toBe("false");
             done();
-        }, 50);
+        }, 100);
     });
 
     it("should trigger buttonFlyoutOpen when opened", function(done) {
