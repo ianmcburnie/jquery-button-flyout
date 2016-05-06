@@ -6,11 +6,18 @@
     "start": "karma start --autoWatch true --singleRun false",
     "test": "karma start --autoWatch false --singleRun true",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
-    "lint": "jshint jquery.buttonflyout.js > jshint.txt",
+    "lint": "eslint jquery.buttonflyout.js > lint.txt",
+    "fix": "eslint jquery.buttonflyout.js --fix",
     "minify": "jsmin -o jquery.buttonflyout.min.js jquery.buttonflyout.js",
-    "clean": "rimraf test_reports *.min.js jshint.txt",
-    "build": "npm run clean && npm run lint && npm test && npm run minify"
+    "clean": "rimraf test_reports *.min.js lint.txt",
+    "build": "npm run clean && npm run minify"
   },
+  "pre-commit": [
+    "clean",
+    "lint",
+    "test",
+    "build"
+  ],
   "author": "Ian McBurnie <ianmcburnie@hotmail.com>",
   "homepage": "https://github.com/ianmcburnie/jquery-button-flyout",
   "bugs": {
@@ -30,9 +37,10 @@
   "license": "ISC",
   "devDependencies": {
     "coveralls": "^2.11.4",
+    "eslint": "^2.4.0",
+    "eslint-config-google": "^0.4.0",
     "jasmine-core": "^2.3.4",
     "jquery": ">=1.11 < 3",
-    "jshint": "^2.8.0",
     "jsmin": "^1.0.1",
     "karma": "^0.13.9",
     "karma-coverage": "^0.5.0",

@@ -2,6 +2,6 @@
 .travis.yml
 .jshintrc
 karma.conf.js
-jshint.txt
+lint.txt
 test.js
 test_reports
