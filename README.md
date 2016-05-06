@@ -10,7 +10,7 @@
 jQuery collection plugin that converts a button + * into a button + overlay, and handles all hide/show behaviour.
 
 ```js
-$('div.flyout--button').buttonFlyout();
+$('.button-flyout').buttonFlyout();
 ```
 
 ## Experimental
@@ -61,9 +61,6 @@ Markup after plugin:
 
 ## Events
 
-* `closeButtonFlyout` - close the button flyout
-* `openButtonFlyout` - open the button flyout
-* `toggleButtonFlyout` - toggle the button flyout
 * `buttonFlyoutClose` - the button flyout has closed
 * `buttonFlyoutOpen` - the button flyout has opened
 
