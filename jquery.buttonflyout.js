@@ -22,7 +22,8 @@
     $.fn.buttonFlyout = function buttonFlyout(options) {
         options = $.extend({
             focusManagement: false,
-            sticky: false
+            sticky: false,
+            isLiveRegion: false
         }, options);
 
         return this.each(function onEach() {
@@ -62,6 +63,10 @@
 
             // assign next id in sequence if one doesn't already exist
             $this.nextId('button-flyout');
+
+            if (options.isLiveRegion === true) {
+                $this.attr('aria-live', 'polite');
+            }
 
             // sticky flyouts don't close on exit
             if (options.sticky === false) {
