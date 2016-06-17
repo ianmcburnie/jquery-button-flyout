@@ -1,6 +1,7 @@
 .npmignore
+.npmrc
 .travis.yml
-.jshintrc
+.eslintrc
 karma.conf.js
 lint.txt
 test.js

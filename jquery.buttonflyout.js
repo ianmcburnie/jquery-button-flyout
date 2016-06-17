@@ -1,6 +1,6 @@
 /**
 * @file jQuery plugin that creates the basic interactivity for a button flyout
-* @version 0.5.6
+* @version 0.6.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires jquery-next-id
 * @requires jquery-common-keydown

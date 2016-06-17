@@ -18,3 +18,6 @@ test_reports
 
 # Lint output
 lint.txt
+
+# JSDoc output
+jsdoc
