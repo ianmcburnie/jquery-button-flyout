@@ -1,6 +1,6 @@
 /**
 * @file jQuery plugin that creates the basic interactivity for a button flyout
-* @version 0.6.0
+* @version 0.7.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires jquery-next-id
 * @requires jquery-common-keydown
@@ -98,13 +98,13 @@
             });
 
             if (isAnchorTag === true) {
-                $button.commonKeyDown().on('spaceKeyDown', function() {
+                $this.commonKeyDown('> button').on('spaceKeyDown', function() {
                     $button.click();
                 });
             }
 
             // when focus is inside flyout, esc key must close flyout
-            $overlay.commonKeyDown().on('escapeKeyDown', function onEscKeyDown(e) {
+            $this.commonKeyDown('> div').on('escapeKeyDown', function onEscKeyDown(e) {
                 $button.focus();
             });
         });
