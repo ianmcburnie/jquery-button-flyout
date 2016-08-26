@@ -39,7 +39,7 @@
     "jquery": ">=1.11",
     "jquery-next-id": "~0.1.0",
     "jquery-common-keydown": "~0.2.1",
-    "jquery-focus-exit": "~0.2.0",
+    "jquery-focus-exit": "~0.3.0",
     "jquery-focusable": "~0.3.0",
     "jquery-migrate": "^1.4.1",
     "jsdoc": "^3.4.0",
@@ -58,7 +58,7 @@
     "jquery": ">=1.11",
     "jquery-next-id": "~0.1.0",
     "jquery-common-keydown": "~0.2.1",
-    "jquery-focus-exit": "~0.2.0",
+    "jquery-focus-exit": "~0.3.0",
     "jquery-focusable": "~0.3.0"
   },
   "publishConfig": {
