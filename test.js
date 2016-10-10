@@ -5,11 +5,13 @@ describe("jquery.buttonflyout.js", function() {
     var dummyEventTimeoutInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL / 2;
 
     var dom = '<div class="flyout">'
-                + '<button>Notifications</button>'
-                + '<div>'
-                    + '<h2>Flyout Title</h2>'
-                    + '<p>Flyout Content</p>'
-                    + '<button>Close</button>'
+                + '<button class="flyout__button">Notifications</button>'
+                + '<div class="flyout__live-region">'
+                    + '<div class="flyout__overlay">'
+                        + '<h2>Flyout Title</h2>'
+                        + '<p>Flyout Content</p>'
+                        + '<button>Close</button>'
+                    + '</div>'
                 + '</div>'
             + '</div>';
 
@@ -17,7 +19,7 @@ describe("jquery.buttonflyout.js", function() {
 
     var dummyEventHandlers = {
         onButtonFocus : function(e) {},
-        onFlyoutClose : function(e) {}
+        onflyoutCollapse : function(e) {}
     };
 
     beforeEach(function() {
@@ -74,22 +76,10 @@ describe("jquery.buttonflyout.js", function() {
         }, dummyEventTimeoutInterval);
     });
 
-    it("should set focus on first focusable overlay element (close button) when clicked if options.focusManagement=true", function(done) {
+    it("should set focus on first focusable overlay element (close button) when clicked if options.focusManagement='first'", function(done) {
         $closeButton.on('focus', done);
-        $widget.buttonFlyout({focusManagement: true});
+        $widget.buttonFlyout({focusManagement: 'first'});
         $button.click();
-    });
-
-    it("should set aria-expanded=false when ESC key pressed", function(done) {
-        $widget.buttonFlyout();
-        $button.click();
-        $closeButton.focus();
-        $overlay.trigger("escapeKeyDown");
-
-        setTimeout(function() {
-            expect($button.attr('aria-expanded')).toBe("false");
-            done();
-        }, 100);
     });
 
     it("should set aria-expanded=false on focusexit", function(done) {
@@ -103,15 +93,15 @@ describe("jquery.buttonflyout.js", function() {
         }, 100);
     });
 
-    it("should trigger buttonFlyoutOpen when opened", function(done) {
+    it("should trigger flyoutExpand when opened", function(done) {
         $widget.buttonFlyout();
-        $widget.on('buttonFlyoutOpen', done);
+        $widget.on('flyoutExpand', done);
         $button.click();
     });
 
-    it("should trigger buttonFlyoutClose when closed", function(done) {
+    it("should trigger flyoutCollapse when closed", function(done) {
         $widget.buttonFlyout();
-        $widget.on('buttonFlyoutClose', done);
+        $widget.on('flyoutCollapse', done);
         $button.click().click();
     });
 

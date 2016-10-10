@@ -7,17 +7,15 @@
     <a href="https://david-dm.org/ianmcburnie/jquery-button-flyout#info=devDependencies"><img src="https://david-dm.org/ianmcburnie/jquery-button-flyout/dev-status.svg" alt="devDependency status" /></a>
 </p>
 
-jQuery collection plugin that converts a button + * into a button + overlay, and handles all hide/show behaviour.
+jQuery plugin that creates the basic interactivity for a button that expands and collapse a flyout.
 
 ```js
-$('.button-flyout').buttonFlyout();
+$(selector).buttonFlyout(options);
 ```
 
 ## Experimental
 
 This plugin is still in an experimental state, until it reaches v1.0.0 you must consider all minor releases as breaking changes. Patch releases may introduce new features, but will be backwards compatible.
-
-Please use the tilde range specifier in your package.json to pin to a fixed major and minor version.
 
 ## Install
 
@@ -30,44 +28,71 @@ npm install jquery-button-flyout
 Markup before plugin:
 
 ```html
-<div class="flyout flyout--button">
+<div class="flyout">
     <button type="button">Notifications</button>
-    <div>
-        <h2>Flyout Title</h2>
-        <p>Flyout Content</p>
-    </div>
+    <span class="flyout__live-region" aria-live="off">
+        <div class="flyout__overlay">
+            <!-- flyout content -->
+        </div>
+    </span>
 </div>
+```
+
+Execute plugin:
+
+```js
+$('.flyout').buttonFlyout();
 ```
 
 Markup after plugin:
 
 ```html
-<div class="flyout flyout--button" id="buttonflyout-0">
-    <button type="button" aria-controls="buttonflyout-0-overlay" aria-expanded="false">Notifications</button>
-    <div id="buttonflyout-0-overlay">
-        <h2>Flyout Title</h2>
-        <p>Flyout Content</p>
-    </div>
+<div class="flyout" id="flyout-0">
+    <button type="button" aria-controls="flyout-0-overlay" aria-expanded="false">Notifications</button>
+    <span class="flyout__live-region" aria-live="off">
+        <div class="flyout__overlay" id="flyout-0-overlay">
+            <!-- flyout content -->
+        </div>
+    </span>
 </div>
 ```
 
+'Click' event on button will now toggle aria-expanded state of button. CSS can use this state to hide/show overlay. For example:
+
+```css
+.flyout__overlay {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+.flyout__button[aria-expanded=true] ~ .flyout__live-region > .flyout__overlay {
+    display: block;
+}
+```
+
+## Options
+
+* `autoCollapse` - auto collapse flyout when focus leaves the widget (default: true)
+* `buttonSelector` - selector for button element (default: '.flyout__button, > button, > a[role=button]')
+* `debug` - print debug statements to console (defualt: false)
+* `focusManagement` - set focus to 'none, 'overlay', 'first' or an ID (default: 'none')
+* `overlaySelector` - selector for overlay element (default: '.flyout__overlay')
+
 ## Events
 
-* `buttonFlyoutClose` - the button flyout has closed
-* `buttonFlyoutOpen` - the button flyout has opened
+* `flyoutCollapse` - the flyout has collapsed
+* `flyoutExpand` - the flyout has expanded
 
 ## Development
 
-Run `npm start` for test driven development. All tests are located in `test.js`.
+Useful NPM task runners:
 
-Execute `npm run` to view all available CLI scripts:
-
-* `npm start` test driven development: watches code and re-tests after any change
+* `npm start` for local browser-sync development.
 * `npm test` runs tests & generates reports (see reports section below)
-* `npm run lint` lints code and reports to jshint.txt
-* `npm run minify` builds minified version of code
-* `npm run build` cleans, lints, tests and minifies (called on `npm prepublish` hook)
-* `npm run clean` deletes all generated test reports and coverage files
+* `npm run tdd` test driven development: watches code and re-tests after any change
+* `npm run build` cleans, lints, tests and minifies
+
+Execute `npm run` to view all available CLI scripts.
 
 ## Reports
 

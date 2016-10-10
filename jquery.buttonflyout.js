@@ -1,82 +1,142 @@
 /**
-* @file jQuery plugin that creates the basic interactivity for a button flyout
-* @version 0.7.2
+* @file jQuery plugin that creates the basic interactivity for a button that expands and collapse a flyout
+* @version 0.8.0
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires jquery-next-id
-* @requires jquery-common-keydown
 * @requires jquery-focusable
 * @requires jquery-focus-exit
 */
 (function($, window, document, undefined) {
     /**
-    * jQuery plugin that creates the basic interactivity for a button flyout
+    * jQuery plugin that creates the basic interactivity for a button that expands and collapse a flyout
     *
     * @method "jQuery.fn.buttonFlyout"
     * @param {Object} [options]
-    * @param {boolean} [options.focusManagement]
-    * @param {boolean} [options.sticky]
-    * @fires {object} buttonFlyoutClose - the button flyout has closed
-    * @fires {object} buttonFlyoutOpen - the button flyout has opened
+    * @param {boolean} [options.focusManagement] - set focus to 'none, 'overlay', 'first' or an ID (default: 'none')
+    * @param {boolean} [options.autoCollapse] - collapse overlay when focus exits widget (default: true)
+    * @param {boolean} [options.buttonSelector] - css selector for button element (default: '.flyout__button')
+    * @param {boolean} [options.overlaySelector] - css selector for overlay element (default: '.flyout__overlay')
+    * @param {boolean} [options.debug] - print debug statements to console (default: false)
+    * @fires {object} flyoutCollapse - the flyout has collapsed
+    * @fires {object} flyoutExpand - the flyout has expanded
     * @return {jQuery} chainable jQuery class
     */
     $.fn.buttonFlyout = function buttonFlyout(options) {
         options = $.extend({
-            focusManagement: false,
-            sticky: false,
-            isLiveRegion: false
+            autoCollapse: true,
+            debug: false,
+            focusManagement: 'none',
+            buttonSelector: '.flyout__button, > button, > a[role=button]',
+            overlaySelector: '.flyout__overlay'
         }, options);
 
         return this.each(function onEach() {
-            var $this = $(this);
-            var $button = $this.find('.flyout__button, > button, > a[role=button]');
-            var $overlay = $this.find('.flyout__overlay, > *:last-child');
-            var isAnchorTag = ($button.prop('tagName').toLowerCase() === 'a');
+            var $widget = $(this);
+            var $button = $widget.find(options.buttonSelector);
+            var $overlay = $widget.find(options.overlaySelector);
+            var isAnchorTag = $button.prop('tagName').toLowerCase() === 'a';
+            var expandedVal = $button.attr('aria-expanded');
 
-            /**
-            * Opens the flyout
-            * @method openButtonFlyout
-            * @return void
-            */
-            function openButtonFlyout(e) {
-                if ($button.attr('aria-expanded') === 'false') {
+            var isExpanded = function() {
+                return $button.attr('aria-expanded') === 'true';
+            };
+
+            var setFocusToOverlay = function() {
+                $overlay.focus();
+            };
+
+            var setFocusToFirst = function() {
+                $overlay.focusable().first().focus();
+            };
+
+            var setFocusToId = function() {
+                $overlay.find('#' + options.focusManagement).focus();
+            };
+
+            var getFocusManagementBehaviour = function() {
+                var func;
+
+                switch (options.focusManagement) {
+                    case 'none':
+                        func = Function;
+                        break;
+                    case 'overlay':
+                        $overlay.attr('tabindex', '-1');
+                        func = setFocusToOverlay;
+                        break;
+                    case 'first':
+                        func = setFocusToFirst;
+                        break;
+                    default:
+                        func = setFocusToId;
+                        break;
+                }
+
+                return func;
+            };
+
+            var doFocusManagement = getFocusManagementBehaviour();
+
+            var expandFlyout = function(e) {
+                if (isExpanded() === false) {
                     $button.attr('aria-expanded', 'true');
                     $overlay.attr('aria-hidden', 'false');
-                    if (options.focusManagement === true) {
-                        $overlay.focusable().first().focus();
-                    }
-                    $this.trigger('buttonFlyoutOpen');
+                    $widget.trigger('flyoutExpand');
+                    doFocusManagement();
                 }
-            }
+            };
 
-            /**
-            * Closes the flyout
-            * @method closeButtonFlyout
-            * @return void
-            */
-            function closeButtonFlyout(e) {
-                if ($button.attr('aria-expanded') === 'true') {
+            var collapseFlyout = function(e) {
+                if (isExpanded() === true) {
                     $button.attr('aria-expanded', 'false');
                     $overlay.attr('aria-hidden', 'true');
-                    $this.trigger('buttonFlyoutClose');
+                    $widget.trigger('flyoutCollapse');
                 }
-            }
+            };
+
+            var toggleFlyout = function(e) {
+                var _void = isExpanded() ? collapseFlyout() : expandFlyout();
+            };
+
+            // ensure spacebar works on anchor tag with role=button
+            var onButtonKeyDown = function(e) {
+                if (e.keyCode === 32) {
+                    // prevent page scroll
+                    e.preventDefault();
+                    toggleFlyout();
+                }
+            };
+
+            var onButtonClick = function(e) {
+                if (isAnchorTag === true) {
+                    e.preventDefault();
+                }
+                toggleFlyout();
+            };
+
+            var onWidgetFocusExit = function(e) {
+                collapseFlyout();
+            };
+
+            var onOverlayEscape = function(e) {
+                collapseFlyout();
+                setTimeout(function(e) {
+                    $button.focus();
+                }, 0);
+            };
 
             // assign next id in sequence if one doesn't already exist
-            $this.nextId('button-flyout');
+            $widget.nextId('button-flyout');
 
-            if (options.isLiveRegion === true) {
-                $this.attr('aria-live', 'polite');
-            }
-
-            // sticky flyouts don't close on exit
-            if (options.sticky === false) {
-                $overlay.focusExit().on('focusExit', closeButtonFlyout);
-                $this.focusExit().on('focusExit', closeButtonFlyout);
+            // listen for focus exit if autoCollapse is true
+            if (options.autoCollapse === true) {
+                $widget.focusExit();
+                $widget.on('focusExit', onWidgetFocusExit);
             }
 
             // assign id to overlay and hide element
             $overlay
-                .prop('id', $this.prop('id') + '-overlay')
+                .prop('id', $widget.prop('id') + '-overlay')
                 .attr('aria-hidden', 'true');
 
             // the button controls the overlay's expanded state
@@ -85,28 +145,12 @@
                 .attr('aria-expanded', 'false');
 
             // the button is a toggle button
-            $button.on('click', function onButtonClick(e) {
-                if (isAnchorTag === true) {
-                    e.preventDefault();
-                }
+            $button.on('click', onButtonClick);
 
-                if ($overlay.attr('aria-hidden') === 'true') {
-                    openButtonFlyout();
-                } else {
-                    closeButtonFlyout();
-                }
-            });
-
+            // if the button is an anchor tag (with role=button), SPACE key must trigger click
             if (isAnchorTag === true) {
-                $button.commonKeyDown().on('spaceKeyDown', function() {
-                    $button.click();
-                });
+                $button.on('keydown', onButtonKeyDown);
             }
-
-            // when focus is inside flyout, esc key must close flyout
-            $overlay.commonKeyDown().on('escapeKeyDown', function onEscKeyDown(e) {
-                $button.focus();
-            });
         });
     };
 }(jQuery, window, document));
@@ -118,17 +162,17 @@
 */
 
 /**
-* buttonFlyoutOpen event
+* flyoutExpand event
 *
-* @event buttonFlyoutOpen
+* @event flyoutExpand
 * @type {object}
 * @property {object} event - event object
 */
 
 /**
-* buttonFlyoutClose event
+* flyoutCollapse event
 *
-* @event buttonFlyoutClose
+* @event flyoutCollapse
 * @type {object}
 * @property {object} event - event object
 */
