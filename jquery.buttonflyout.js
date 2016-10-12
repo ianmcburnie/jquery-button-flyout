@@ -1,6 +1,7 @@
 /**
 * @file jQuery plugin that creates the basic interactivity for a button that expands and collapse a flyout
-* @version 0.8.0
+* @deprecated since v0.8.1 in favour of jquery-click-flyout, jquery-focus-flyout & jquery-hover-flyout.
+* @version 0.8.1
 * @author Ian McBurnie <ianmcburnie@hotmail.com>
 * @requires jquery-next-id
 * @requires jquery-focusable
